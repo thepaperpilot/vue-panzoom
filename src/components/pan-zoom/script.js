@@ -6,7 +6,8 @@ const PanZoomComponent = {
     },
     data() {
         return {
-            $panZoomInstance: null,
+            panZoomInstance: null,
+            panZoomInstanceId,
             instanceId: null,
             defaultOptions: {
                 autocenter: true,
@@ -24,8 +25,8 @@ const PanZoomComponent = {
     mounted() {
         if (this.scene) {
             var _options = Object.assign({}, this.defaultOptions, this.options);
-            this.$panZoomInstance = this.$panZoom(this.scene, _options);
-            this.$panZoomInstanceId = this.instanceId;
+            this.panZoomInstance = this.$panZoom(this.scene, _options);
+            this.panZoomInstanceId = this.instanceId;
             this.attachEvents();
         }
     },
@@ -58,40 +59,40 @@ const PanZoomComponent = {
             return a.join('');
         },
         attachEvents() {
-            this.$emit('init', this.$panZoomInstance, this.$panZoomInstanceId);
+            this.$emit('init', this.panZoomInstance, this.panZoomInstanceId);
 
-            this.$panZoomInstance.on('panstart', (e) => {
+            this.panZoomInstance.on('panstart', (e) => {
                 this.$emit('panstart', e);
             });
 
-            this.$panZoomInstance.on('panend', (e) => {
+            this.panZoomInstance.on('panend', (e) => {
                 this.$emit('panend', e);
             });
 
-            this.$panZoomInstance.on('pan', (e) => {
+            this.panZoomInstance.on('pan', (e) => {
                 this.$emit('pan', e);
             });
 
-            this.$panZoomInstance.on('zoom', (e) => {
+            this.panZoomInstance.on('zoom', (e) => {
                 this.$emit('zoom', e);
             });
 
-            this.$panZoomInstance.on('transform', (e) => {
+            this.panZoomInstance.on('transform', (e) => {
                 this.$emit('transform', e);
             });
 
-            this.$panZoomInstance.on('zoomend', (e) => {
+            this.panZoomInstance.on('zoomend', (e) => {
                 this.$emit('zoomend', e);
             });
         },
         isPaused() {
-            return this.$panZoomInstance.isPaused();
+            return this.panZoomInstance.isPaused();
         },
         pause() {
-            this.$panZoomInstance.pause();
+            this.panZoomInstance.pause();
         },
         resume() {
-            this.$panZoomInstance.resume();
+            this.panZoomInstance.resume();
         }
     }
 }
